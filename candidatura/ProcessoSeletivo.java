@@ -1,6 +1,7 @@
 package candidatura;
-
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.List;
+import java.util.ArrayList;
 
 public class ProcessoSeletivo
 {
@@ -16,6 +17,8 @@ public class ProcessoSeletivo
             "MONICA", "FABRICIO", "MIRELA", "DANIELA", "JORGE"
     };
 
+    private static List<String> selecionados;
+
     public static void main(String[] args) {
         System.out.println("Processo seletivo");
         // testes do case 1 comentados
@@ -25,6 +28,9 @@ public class ProcessoSeletivo
 
         // teste do case 2
         selecionarCandidatos();
+
+        // teste do case 3
+        imprimirSelecionados();
 
     }
 
@@ -48,10 +54,12 @@ public class ProcessoSeletivo
 
     /**
      * Seleciona certa quantidade de candidatos com base em propostas
-     * salariais dos mesmos.
+     * salariais dos mesmos. Os nomes são guardados em uma lista para
+     * posterior exibição.
      */
     public static void selecionarCandidatos()
     {
+        selecionados = new ArrayList<>();
         int candidatosSelecionados = 0;
         int candidatoAtual = 0;
 
@@ -68,6 +76,7 @@ public class ProcessoSeletivo
             {
                 System.out.println("O candidato " + candidato +
                         " foi selecionado para a vaga.");
+                selecionados.add(candidato);
                 candidatosSelecionados++;
             }
             System.out.println();
@@ -82,6 +91,20 @@ public class ProcessoSeletivo
     private static double valorPretendido()
     {
         return ThreadLocalRandom.current().nextDouble(1800, 2200);
+    }
+
+    /**
+     * Imprime a lista de candidatos selecionados gerada em
+     * selecionarCandidatos().
+     */
+    public static void imprimirSelecionados()
+    {
+        System.out.print("Lista de selecionados: ");
+        System.out.print(selecionados.get(0));
+        for (int i=1; i<selecionados.size(); i++)
+        {
+            System.out.print(", " + selecionados.get(i));
+        }
     }
 
 }
