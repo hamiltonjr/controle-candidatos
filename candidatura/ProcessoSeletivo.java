@@ -1,4 +1,5 @@
 package candidatura;
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.List;
 import java.util.ArrayList;
@@ -31,6 +32,12 @@ public class ProcessoSeletivo
 
         // teste do case 3
         imprimirSelecionados();
+
+        // teste do case 4
+        for (String candidato : selecionados)
+        {
+            entrarEmContato(candidato);
+        }
 
     }
 
@@ -85,15 +92,6 @@ public class ProcessoSeletivo
     }
 
     /**
-     * Simula a proposição de salário dos candidatos.
-     * @return proposição aleatória de salário
-     */
-    private static double valorPretendido()
-    {
-        return ThreadLocalRandom.current().nextDouble(1800, 2200);
-    }
-
-    /**
      * Imprime a lista de candidatos selecionados gerada em
      * selecionarCandidatos().
      */
@@ -105,6 +103,59 @@ public class ProcessoSeletivo
         {
             System.out.print(", " + selecionados.get(i));
         }
+        System.out.println();
     }
 
+    /**
+     * Simula o RH entrando em contato com os candidatos selecionados
+     * usando um método randômico.
+     * @param candidato
+     */
+    public static void entrarEmContato(String candidato)
+    {
+        int tentativas = 1;
+        boolean continuarTentando = true;
+        boolean atendeu = false;
+
+        do
+        {
+            atendeu = atender();
+            continuarTentando = !atendeu;
+            if (continuarTentando)
+            {
+                tentativas++;
+            } else
+            {
+                System.out.println("\nCONTATO REALIZADO COM SUCESSO");
+            }
+        } while (continuarTentando && tentativas < 3);
+
+        if (atendeu)
+        {
+            System.out.println("Conseguimos contato com " +
+                    candidato + " com " + tentativas + " tentativas");
+        } else
+        {
+            System.out.println("\nNão conseguimos contato com " + candidato);
+        }
+    }
+
+    /**
+     * Simula a proposição de salário dos candidatos.
+     * @return proposição aleatória de salário
+     */
+    private static double valorPretendido()
+    {
+        return ThreadLocalRandom.current().nextDouble(1800, 2200);
+    }
+
+    /**
+     * Simula o atendimento de até 3 ligações do RH para o
+     * candidato.
+     * @return se o candidato atendeu ou não em cada momento.
+     */
+    private static boolean atender()
+    {
+        return new Random().nextInt(3) == 1;
+    }
 }
